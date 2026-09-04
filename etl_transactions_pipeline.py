@@ -12,7 +12,7 @@ SUPABASE_KEY = os.getenv("SUPABASE_KEY")    # <- ENV BARU
 if not SUPABASE_URI or not SUPABASE_URL or not SUPABASE_KEY:
     raise ValueError("Pastikan SUPABASE_URI, SUPABASE_URL, dan SUPABASE_KEY ada di .env")
 
-engine = create_engine(SUPABASE_URI, connect_args={"sslmode": "require"})
+engine = create_engine(SUPABASE_URI)
 
 def clean_transactions(df, file_name):
     """Pembersihan kualitas data, missing values, deduplikasi, dan mencatat ringkasan (summary)"""
@@ -152,7 +152,7 @@ def run_transaction_etl():
     # Setelah semua file diproses, ekspor ke Parquet untuk Power BI
     if files:
         export_master_parquet_to_supabase()
-        
+
     print("=== PROSES ETL TRANSAKSI SELESAI ===")
 
 if __name__ == "__main__":
