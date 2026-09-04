@@ -33,6 +33,7 @@ six==1.17.0
 SQLAlchemy==2.0.52
 starlette==1.6.0
 streamlit==1.63.0
+supabase==2.31.0
 toml==0.10.2
 typing_extensions==4.16.0
 tzdata==2026.3
