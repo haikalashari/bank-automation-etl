@@ -79,6 +79,8 @@ def clean_data(df, table_name):
             df['date'] = pd.to_datetime(df['date'], errors='coerce')
         # Tangani missing values masif pada trnx_16
         if 'purpose' in df.columns:
+            df['purpose'] = df['purpose'].astype(str).str.strip()
+            df['purpose'] = df['purpose'].replace(r'^\s*$', pd.NA, regex=True)
             df['purpose'] = df['purpose'].fillna('Unknown')
         if 'bank' in df.columns:
             df['bank'] = df['bank'].fillna('Internal/Unknown')

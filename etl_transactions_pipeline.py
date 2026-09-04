@@ -39,6 +39,8 @@ def clean_transactions(df, file_name):
         
     # 4. Penanganan Missing Values & Pencatatan Statistik Imputasi
     if 'purpose' in df.columns:
+        df['purpose'] = df['purpose'].astype(str).str.strip()
+        df['purpose'] = df['purpose'].replace(r'^\s*$', pd.NA, regex=True)
         summary["null_purpose_filled"] = int(df['purpose'].isnull().sum())
         df['purpose'] = df['purpose'].fillna('Unknown')
         
