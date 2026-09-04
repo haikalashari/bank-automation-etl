@@ -1,0 +1,30 @@
+name: Automated Daily Transaction ETL
+
+on:
+  schedule:
+    - cron: '0 18 * * *'  # Berjalan pukul 18:00 UTC (Setara pukul 01:00 AM WIB)
+  workflow_dispatch:      
+
+jobs:
+  run-etl-script:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+          cache: 'pip'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          if [ -f requirement ]; then pip install -r requirement; fi
+
+      - name: Run ETL Transactions Pipeline
+        env:
+          SUPABASE_URI: ${{ secrets.SUPABASE_URI }}
+        run: |
+          python etl_transactions_pipeline.py
