@@ -76,39 +76,6 @@ def print_execution_summary(summary):
     print(f" • Total Baris Final/Load : {summary['final_rows']:,} baris")
     print("="*40 + "\n")
 
-def export_master_parquet_to_supabase():
-    """Menarik seluruh data dari tabel dan mengunggahnya sebagai Parquet ke Supabase Storage"""
-    print("\n=== MEMULAI EKSPOR PARQUET UNTUK POWER BI ===")
-    try:
-        # 1. Tarik seluruh data dari database
-        print("Menarik data terbaru dari tabel 'trnx'...")
-        full_df = pd.read_sql("SELECT * FROM trnx", engine)
-        
-        # 2. Simpan sebagai file Parquet lokal sementara
-        parquet_filename = "master_transactions.parquet"
-        full_df.to_parquet(parquet_filename, index=False)
-        print(f"File {parquet_filename} berhasil dibuat lokal.")
-        
-        # 3. Upload ke Supabase Storage
-        supabase: Client = create_client(SUPABASE_URL, SUPABASE_KEY)
-        bucket_name = "powerbi-export"
-        
-        with open(parquet_filename, "rb") as f:
-            print(f"Mengunggah ke Supabase bucket: '{bucket_name}'...")
-            # upsert=True akan menimpa (overwrite) file yang lama
-            supabase.storage.from_(bucket_name).upload(
-                file=f,
-                path=parquet_filename,
-                file_options={"upsert": "true", "content-type": "application/octet-stream"}
-            )
-        
-        print("-> Sukses! File master_transactions.parquet sudah diperbarui.")
-        
-        # Hapus file Parquet lokal agar bersih
-        os.remove(parquet_filename)
-        
-    except Exception as e:
-        print(f"[ERROR] Gagal mengekspor Parquet: {e}")
 
 def run_transaction_etl():
     incoming_dir = "data/transactions/incoming"
@@ -149,9 +116,6 @@ def run_transaction_etl():
         except Exception as e:
             print(f"[ERROR] Gagal memproses file {file_name}: {e}\n")
 
-    # Setelah semua file diproses, ekspor ke Parquet untuk Power BI
-    if files:
-        export_master_parquet_to_supabase()
 
     print("=== PROSES ETL TRANSAKSI SELESAI ===")
 
