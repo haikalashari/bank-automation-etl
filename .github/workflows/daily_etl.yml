@@ -23,6 +23,31 @@ jobs:
           python -m pip install --upgrade pip
           if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
 
+      - name: Test Supabase Connection
+        env:
+          SUPABASE_URI: ${{ secrets.SUPABASE_URI }}
+
+        run: |
+          python -c "
+          import os
+          from sqlalchemy import create_engine, text
+          from sqlalchemy.pool import NullPool
+
+          uri = os.environ['SUPABASE_URI']
+
+          engine = create_engine(
+              uri,
+              poolclass=NullPool,
+              connect_args={
+                  'client_encoding': 'utf8'
+              }
+          )
+
+          with engine.connect() as conn:
+              result = conn.execute(text('SELECT 1'))
+              print('Supabase connection successful:', result.scalar())
+          "
+
       - name: Run ETL Transactions Pipeline
         env:
           SUPABASE_URI: ${{ secrets.SUPABASE_URI }}
