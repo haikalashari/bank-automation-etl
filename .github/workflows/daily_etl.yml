@@ -51,5 +51,7 @@ jobs:
       - name: Run ETL Transactions Pipeline
         env:
           SUPABASE_URI: ${{ secrets.SUPABASE_URI }}
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_KEY: ${{ secrets.SUPABASE_KEY }}
         run: |
           python etl_transactions_pipeline.py
