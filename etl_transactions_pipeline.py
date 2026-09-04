@@ -6,8 +6,8 @@ from supabase import create_client, Client
 
 load_dotenv()
 SUPABASE_URI = os.getenv("SUPABASE_URI")
-SUPABASE_URL = os.getenv("SUPABASE_URL")    # <- ENV BARU
-SUPABASE_KEY = os.getenv("SUPABASE_KEY")    # <- ENV BARU
+SUPABASE_URL = os.getenv("SUPABASE_URL")
+SUPABASE_KEY = os.getenv("SUPABASE_KEY") 
 
 if not SUPABASE_URI or not SUPABASE_URL or not SUPABASE_KEY:
     raise ValueError("Pastikan SUPABASE_URI, SUPABASE_URL, dan SUPABASE_KEY ada di .env")

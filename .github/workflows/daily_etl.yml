@@ -8,6 +8,10 @@ on:
 jobs:
   run-etl-script:
     runs-on: ubuntu-latest
+
+    permissions:
+      contents: write
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -55,3 +59,17 @@ jobs:
           SUPABASE_KEY: ${{ secrets.SUPABASE_KEY }}
         run: |
           python etl_transactions_pipeline.py
+
+      - name: Commit and Push changes (Archive files)
+        run: |
+          git config --global user.name 'github-actions[bot]'
+          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+          
+          # Daftarkan semua perubahan di folder data
+          git add data/transactions/incoming/ data/transactions/archive/
+          
+          # Lakukan commit, gunakan [skip ci] agar tidak memicu action berulang
+          git commit -m "chore: archive processed transaction files [skip ci]" || echo "Tidak ada file baru untuk di-commit"
+          
+          # Push ke branch utama (main/master)
+          git push
