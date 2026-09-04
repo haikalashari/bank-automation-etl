@@ -64,6 +64,11 @@ jobs:
         run: |
           git config --global user.name 'github-actions[bot]'
           git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+
+          # Pastikan folder incoming selalu tersedia
+          mkdir -p data/transactions/incoming
+          touch data/transactions/incoming/.gitkeep
+
           
           # Daftarkan semua perubahan di folder data
           git add data/transactions/incoming/ data/transactions/archive/
