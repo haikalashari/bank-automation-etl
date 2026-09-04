@@ -21,7 +21,7 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          if [ -f requirement ]; then pip install -r requirement; fi
+          if [ -f requirement.txt ]; then pip install -r requirement.txt; fi
 
       - name: Run ETL Transactions Pipeline
         env:
