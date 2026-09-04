@@ -1,0 +1,10 @@
+# Environment variables
+.env
+
+# Python virtual environment
+venv/
+__pycache__/
+
+# Data files (biarkan CSV tetap di lokal, jangan di-push)
+data/
+*.csv
