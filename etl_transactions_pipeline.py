@@ -95,7 +95,6 @@ def run_transaction_etl():
         try:
             df = pd.read_csv(file_path, low_memory=False)
             
-            # Jalankan pembersihan sekaligus dapatkan data ringkasannya
             df_cleaned, summary = clean_transactions(df, file_name)
             
             # Load ke Supabase

@@ -121,7 +121,7 @@ def run_etl():
                 low_memory=False
             )
             
-            # Jalankan pembersihan data tingkat lanjut
+            # Jalankan pembersihan data 
             df_cleaned = clean_data(df, table_name)
             
             # Load ke Supabase PostgreSQL
